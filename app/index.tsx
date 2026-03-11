@@ -1,28 +1,42 @@
-// src/app/(checkout)/scanner.tsx
-import { Camera, CameraView, useCameraPermissions } from 'expo-camera';
-import { Button, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { CameraView, BarcodeScanningResult } from 'expo-camera';
 
-export default function App() {
-  const [permission, requestPermission] = useCameraPermissions();
+export default function QRScanner() {
+  const [scanned, setScanned] = useState(false);
+  const [qrData, setQrData] = useState("");
 
-  if (!permission) {
-    // Los permisos siguen cargando
-    return <View />;
-  }
-
-  if (!permission.granted) {
-    // Los permisos no han sido otorgados
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ textAlign: 'center' }}>Necesitamos acceso a tu cámara</Text>
-        <Button onPress={requestPermission} title="Dar permiso" />
-      </View>
-    );
-  }
+  const handleBarCodeScanned = ({ data }: BarcodeScanningResult) => {
+    setScanned(true);
+    setQrData(data);
+  };
 
   return (
-    <View style={{ flex: 1 }}>
-       <CameraView style={{ flex: 1 }} />
+    <View style={styles.container}>
+      <CameraView
+        style={StyleSheet.absoluteFillObject}
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+      />
+
+      {qrData !== "" && (
+        <View style={styles.overlay}>
+          <Text style={styles.text}>Contenido del QR:</Text>
+          <Text style={styles.text}>{qrData}</Text>
+        </View>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  overlay: {
+    position: "absolute",
+    bottom: 50,
+    alignSelf: "center",
+    backgroundColor: "#000000aa",
+    padding: 20,
+    borderRadius: 10
+  },
+  text: { color: "white" }
+});

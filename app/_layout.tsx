@@ -1,5 +1,6 @@
 import { NativeTabs, Icon, Label } from 'expo-router/unstable-native-tabs';
 
+
 export default function TabLayout() {
   return (
     <NativeTabs>
@@ -12,7 +13,7 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="QRS">
         <Label>QS</Label>
-        <Icon src={require('../assets/Extra/Carpet.png')} 
+        <Icon src={require('../assets/Extra/QR.png')} 
         />
       </NativeTabs.Trigger>
       {/*<NativeTabs.Trigger name="settings">

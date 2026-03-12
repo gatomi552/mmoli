@@ -6,13 +6,13 @@ export default function TabLayout() {
 
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
-        <Icon src={require('./assets/home.png')}  
+        <Icon src={require('../assets/Extra/house.png')}  
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="Qr">
-        <Label>QR´S</Label>
-        <Icon src={require('./assets/Carpet.png')} 
+      <NativeTabs.Trigger name="QRS">
+        <Label>QS</Label>
+        <Icon src={require('../assets/Extra/Carpet.png')} 
         />
       </NativeTabs.Trigger>
       {/*<NativeTabs.Trigger name="settings">

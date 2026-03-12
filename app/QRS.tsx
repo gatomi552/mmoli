@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CameraView, BarcodeScanningResult } from "expo-camera";
+import { QRContext } from "../components/QRProvider";
+import { useContext } from "react";
 
 export default function QRScanner() {
   const [scanned, setScanned] = useState(false);
-  const [qrData, setQrData] = useState("");
+  const { qrData, setQrData } = useContext(QRContext);
 
   const handleBarCodeScanned = ({ data }: BarcodeScanningResult) => {
     setScanned(true);

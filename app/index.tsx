@@ -1,5 +1,15 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+/*import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { CameraView, BarcodeScanningResult } from 'expo-camera';
+
+export default function QRScanner() {
+  const [scanned, setScanned] = useState(false);
+  const [qrData, setQrData] = useState("");
+
+  const handleBarCodeScanned = ({ data }: BarcodeScanningResult) => {
+    setScanned(true);
+    setQrData(data);
+  };
 
 export default function Perfil() {
   return (

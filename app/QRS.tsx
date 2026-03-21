@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { CameraView, BarcodeScanningResult } from "expo-camera";
+import { CameraView, BarcodeScanningResult, useCameraPermissions } from "expo-camera";
 import { QRContext } from "../components/QRProvider";
 import { useContext } from "react";
 
 export default function QRScanner() {
   const [scanned, setScanned] = useState(false);
   const { qrData, setQrData } = useContext(QRContext);
+  const [permission, requestPermission] = useCameraPermissions();
 
   const handleBarCodeScanned = ({ data }: BarcodeScanningResult) => {
     setScanned(true);
@@ -17,6 +18,25 @@ export default function QRScanner() {
     setQrData("");
     setScanned(false);
   };
+
+  // Permiso aún cargando
+  if (!permission) {
+    return <View style={styles.container} />;
+  }
+
+  // Permiso denegado o no otorgado
+  if (!permission.granted) {
+    return (
+      <View style={styles.permissionContainer}>
+        <Text style={styles.permissionText}>
+          Se necesita acceso a la cámara para escanear QR
+        </Text>
+        <TouchableOpacity style={styles.button} onPress={requestPermission}>
+          <Text style={styles.buttonText}>Dar permiso</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -37,16 +57,12 @@ export default function QRScanner() {
       {/* Resultado */}
       {qrData !== "" && (
         <View style={styles.resultCard}>
-          
           <Text style={styles.title}>QR Detectado</Text>
-
           <Text style={styles.label}>Contenido:</Text>
           <Text style={styles.data}>{qrData}</Text>
-
           <TouchableOpacity style={styles.button} onPress={scanAgain}>
             <Text style={styles.buttonText}>Escanear Otro</Text>
           </TouchableOpacity>
-
         </View>
       )}
     </View>
@@ -59,6 +75,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black"
   },
+
+  // --- Nuevo ---
+  permissionContainer: {
+    flex: 1,
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 30
+  },
+
+  permissionText: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20
+  },
+  // -------------
 
   scanFrame: {
     position: "absolute",

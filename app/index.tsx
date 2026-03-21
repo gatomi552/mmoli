@@ -19,7 +19,7 @@ export default function Perfil() {
       <View style={styles.buttonContainer}>
 
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Guardar datos escaneados</Text>
+          <Text style={styles.buttonText}>Buscar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
